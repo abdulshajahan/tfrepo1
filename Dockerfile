@@ -1,5 +1,5 @@
 # Use official Nginx base image
-FROM nginx:latest
+FROM docker.io/nginx:latest
 
 # Remove default Nginx page and add our custom page
 COPY index.html /usr/share/nginx/html/index.html
