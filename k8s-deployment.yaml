@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: jk-app-deployment
+  namespace: $KUBE_NAMESPACE  # Ensure this namespace exists or create it
+  labels:
+    app: jk-app
+spec:
+  replicas: 2  # Adjust based on your requirement
+  selector:
+    matchLabels:
+      app: jk-app
+  template:
+    metadata:
+      labels:
+        app: jk-app
+    spec:
+      containers:
+        - name: jk-app
+          image: httpd:latest  # Replace with your actual image
+          ports:
+            - containerPort: 80
+          env:
+            - name: ENVIRONMENT
+              value: "production"
+          resources:
+            requests:
+              memory: "256Mi"
+              cpu: "250m"
+            limits:
+              memory: "512Mi"
+              cpu: "500m"
+---
+# apiVersion: v1
+# kind: Service
+# metadata:
+#   name: my-app-service
+#   namespace: $KUBE_NAMESPACE
+# spec:
+#   selector:
+#     app: my-app
+#   ports:
+#     - protocol: TCP
+#       port: 80
+#       targetPort: 80
+#   type: LoadBalancer  # Change to NodePort or ClusterIP if required
